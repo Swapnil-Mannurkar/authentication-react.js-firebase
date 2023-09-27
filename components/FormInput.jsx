@@ -20,6 +20,8 @@ const FormInput = (props) => {
   const inputChangeHandler = (e) => {
     if (e.target.value !== "") {
       setIsFieldEmpty(false);
+      setIsNoUser(false);
+      setIsWrongPassword(false);
     } else {
       setIsFieldEmpty(true);
     }
@@ -33,7 +35,7 @@ const FormInput = (props) => {
   } else if (isNoUser && props.title === "Username") {
     message = "User not found!";
   } else if (isWrongPassword && props.title === "Password") {
-    message = "Wrong password";
+    message = "Incorrect password!";
   }
 
   return (

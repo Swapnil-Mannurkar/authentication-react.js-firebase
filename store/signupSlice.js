@@ -1,42 +1,58 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const authData = {
-  status: null,
+  status: "idle",
   error: null,
 };
 
 export const signupThunk = createAsyncThunk(
   "register user",
   async (userDetails) => {
-    const username = userDetails.username;
-    const { ...userdata } = userDetails;
-
-    await fetch(
-      `https://expense-tracker-9604e-default-rtdb.firebaseio.com/users/${username}.json`,
-      {
-        method: "PUT",
-        body: JSON.stringify(userdata),
-        headers: {
-          "content-type": "application/json",
-        },
-      }
+    const response = await fetch(
+      `https://expense-tracker-9604e-default-rtdb.firebaseio.com/users.json`
     );
-    return userDetails;
+
+    const users = await response.json();
+    const username = userDetails.username;
+    if (await users[username]) {
+      return { message: "Username already exists" };
+    } else {
+      const { ...userdata } = userDetails;
+      await fetch(
+        `https://expense-tracker-9604e-default-rtdb.firebaseio.com/users/${username}.json`,
+        {
+          method: "PUT",
+          body: JSON.stringify(userdata),
+          headers: {
+            "content-type": "application/json",
+          },
+        }
+      );
+      return { message: "success" };
+    }
   }
 );
 
 const signupSlice = createSlice({
   name: "authData",
   initialState: authData,
-  reducers: {},
+  reducers: {
+    setStatusIdle(state) {
+      state.status = "idle";
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(signupThunk.pending, (state) => {
         state.status = "loading";
       })
       .addCase(signupThunk.fulfilled, (state, action) => {
-        state.status = "success";
-        state.user = action.payload;
+        const message = action.payload.message;
+        if (message === "success") {
+          state.status = "success";
+        } else {
+          state.status = "Username already exists";
+        }
       })
       .addCase(signupThunk.rejected, (state, action) => {
         state.status = "failed";
