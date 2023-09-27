@@ -1,8 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./FormInput.module.css";
+import { useSelector } from "react-redux";
 
 const FormInput = (props) => {
   const [isFieldEmpty, setIsFieldEmpty] = useState(null);
+  const [isNoUser, setIsNoUser] = useState(null);
+  const [isWrongPassword, setIsWrongPassword] = useState(null);
+  const status = useSelector((state) => state.loginSlice.status);
+
+  useEffect(() => {
+    if (status === "user not found!") {
+      setIsNoUser(true);
+    } else if (status === "wrong password") {
+      setIsWrongPassword(true);
+      setIsNoUser(false);
+    }
+  }, [status]);
 
   const inputChangeHandler = (e) => {
     if (e.target.value !== "") {
@@ -13,9 +26,19 @@ const FormInput = (props) => {
     props.setValue({ value: e.target.value, type: props.for });
   };
 
+  let message = "";
+
+  if (isFieldEmpty || props.error) {
+    message = `Please enter the ${props.for}`;
+  } else if (isNoUser && props.title === "Username") {
+    message = "User not found!";
+  } else if (isWrongPassword && props.title === "Password") {
+    message = "Wrong password";
+  }
+
   return (
     <div className={styles.inputContainer}>
-      <label htmlFor={props.for}>{props.for}</label>
+      <label htmlFor={props.for}>{props.title}</label>
       <input
         type={props.type}
         onChange={inputChangeHandler}
@@ -25,13 +48,8 @@ const FormInput = (props) => {
             : { border: "1px solid black" }
         }
       />
-      <p
-        className={styles.errorMessage}
-        style={isFieldEmpty || props.error ? { zIndex: 1 } : { zIndex: -2 }}
-      >
-        Please enter the{" "}
-        <span style={{ textTransform: "lowercase" }}>{props.for}</span>.
-      </p>
+
+      <p className={styles.errorMessage}>{message}</p>
     </div>
   );
 };

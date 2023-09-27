@@ -14,15 +14,16 @@ export default function Home() {
   const [usernameError, setUsernameError] = useState(null);
   const [passwordError, setPasswordError] = useState(null);
   const status = useSelector((state) => state.loginSlice.status);
+
   const dispatch = useDispatch();
   const router = useRouter();
 
   const setValue = ({ value, type }) => {
-    if (type === "Username") {
+    if (type === "username") {
       setUsername(value);
       setUsernameError(false);
     }
-    if (type === "Password") {
+    if (type === "password") {
       setPassword(value);
       setPasswordError(false);
     }
@@ -30,11 +31,14 @@ export default function Home() {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    if (username === "") {
-      setUsernameError(true);
-    }
-    if (password === "") {
-      setPasswordError(true);
+    if (username === "" || password === "") {
+      if (username === "") {
+        setUsernameError(true);
+      }
+      if (password === "") {
+        setPasswordError(true);
+      }
+      return;
     }
 
     const user = {
@@ -70,14 +74,16 @@ export default function Home() {
 
         <form onSubmit={onSubmitHandler}>
           <FormInput
-            for="Username"
+            for="username"
             type="text"
+            title="Username"
             setValue={setValue}
             error={usernameError}
           />
           <FormInput
-            for="Password"
+            for="password"
             type="text"
+            title="Password"
             setValue={setValue}
             error={passwordError}
           />

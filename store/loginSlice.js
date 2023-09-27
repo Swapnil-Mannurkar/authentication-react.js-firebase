@@ -23,16 +23,14 @@ export const loginThunk = createAsyncThunk(
       if (await users[enteredUsername]) {
         user = users[enteredUsername];
       } else {
-        throw "User not found!";
+        return { data: null, message: "user not found!" };
       }
 
       if (user.password === enteredPassword) {
-        console.log("login successful!");
+        return { data: user, message: "success" };
       } else {
-        throw "Incorrect password";
+        return { data: null, message: "wrong password" };
       }
-
-      return { data: user, message: "success" };
     } catch (error) {
       return { data: null, message: error };
     }
@@ -58,14 +56,12 @@ const loginSlice = createSlice({
       .addCase(loginThunk.fulfilled, (state, action) => {
         const data = action.payload.data;
         const message = action.payload.message;
+        state.user = data;
+        state.status = message;
         if (message === "success") {
-          state.user = data;
-          state.status = message;
           state.isLoggedIn = true;
           localStorage.setItem("username", data.username);
           localStorage.setItem("loginSuccess", true);
-        } else {
-          state.status = message;
         }
       })
       .addCase(loginThunk.rejected, (state, action) => {
