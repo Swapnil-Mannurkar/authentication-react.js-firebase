@@ -3,7 +3,6 @@ import styles from "./FormInput.module.css";
 
 const FormInput = (props) => {
   const [isFieldEmpty, setIsFieldEmpty] = useState(null);
-  const [enteredValue, setEnteredValue] = useState("");
 
   const inputChangeHandler = (e) => {
     if (e.target.value !== "") {
@@ -21,14 +20,14 @@ const FormInput = (props) => {
         type={props.type}
         onChange={inputChangeHandler}
         style={
-          isFieldEmpty
+          isFieldEmpty || props.error
             ? { border: "1px solid red" }
             : { border: "1px solid black" }
         }
       />
       <p
         className={styles.errorMessage}
-        style={isFieldEmpty ? { zIndex: 1 } : { zIndex: -2 }}
+        style={isFieldEmpty || props.error ? { zIndex: 1 } : { zIndex: -2 }}
       >
         Please enter the{" "}
         <span style={{ textTransform: "lowercase" }}>{props.for}</span>.

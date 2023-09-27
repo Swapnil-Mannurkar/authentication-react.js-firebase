@@ -11,6 +11,8 @@ import FormInput from "@/components/FormInput";
 export default function Home() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [usernameError, setUsernameError] = useState(null);
+  const [passwordError, setPasswordError] = useState(null);
   const status = useSelector((state) => state.loginSlice.status);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -18,14 +20,23 @@ export default function Home() {
   const setValue = ({ value, type }) => {
     if (type === "Username") {
       setUsername(value);
+      setUsernameError(false);
     }
     if (type === "Password") {
       setPassword(value);
+      setPasswordError(false);
     }
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    if (username === "") {
+      setUsernameError(true);
+    }
+    if (password === "") {
+      setPasswordError(true);
+    }
+
     const user = {
       username: username,
       password: password,
@@ -58,8 +69,18 @@ export default function Home() {
         <h1>Login Screen</h1>
 
         <form onSubmit={onSubmitHandler}>
-          <FormInput for="Username" type="text" setValue={setValue} />
-          <FormInput for="Password" type="text" setValue={setValue} />
+          <FormInput
+            for="Username"
+            type="text"
+            setValue={setValue}
+            error={usernameError}
+          />
+          <FormInput
+            for="Password"
+            type="text"
+            setValue={setValue}
+            error={passwordError}
+          />
 
           <button type="submit">Login</button>
 
