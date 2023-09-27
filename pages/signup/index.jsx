@@ -37,6 +37,13 @@ const Signup = () => {
     }
   }, [status]);
 
+  useEffect(() => {
+    if (localStorage.getItem("username")) {
+      localStorage.setItem("loginSuccess", true);
+      router.push("/expenses");
+    } else localStorage.setItem("loginSuccess", false);
+  }, []);
+
   return (
     <div className={styles.main}>
       <h1>Sign up</h1>
@@ -60,6 +67,7 @@ const Signup = () => {
           <input
             type="text"
             required
+            minLength={7}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
