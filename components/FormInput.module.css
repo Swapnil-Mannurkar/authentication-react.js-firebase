@@ -1,0 +1,22 @@
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  width: 100%;
+}
+
+.inputContainer label {
+  font-weight: bold;
+}
+
+.inputContainer input {
+  padding: 5px 10px;
+}
+
+.inputContainer input:focus {
+  outline: none;
+}
+
+.errorMessage {
+  color: red;
+}

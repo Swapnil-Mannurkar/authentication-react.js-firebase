@@ -1,0 +1,49 @@
+.main {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.main h1 {
+  color: var(--yellow);
+  text-transform: uppercase;
+}
+
+.main form {
+  width: 27%;
+  height: 48%;
+  background-color: white;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  gap: 0.5rem;
+  border-radius: 12px;
+}
+
+
+.main button {
+  padding: 8px 0;
+  width: 100%;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 1rem;
+  background-color: var(--darkGray);
+  border: none;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  margin: 5px 0 20px;
+  border-radius: 4px;
+}
+
+.main button:hover {
+  background-color: var(--yellow);
+  color: black;
+}

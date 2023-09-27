@@ -45,6 +45,7 @@ const loginSlice = createSlice({
   reducers: {
     logout(state) {
       state.isLoggedIn = false;
+      state.status = "idle";
       localStorage.removeItem("username");
       localStorage.setItem("loginSuccess", false);
     },
