@@ -55,7 +55,6 @@ export default function Home() {
     } else localStorage.setItem("loginSuccess", false);
   }, []);
 
-  
   useEffect(() => {
     if (status === "success") {
       router.push("/homepage");
