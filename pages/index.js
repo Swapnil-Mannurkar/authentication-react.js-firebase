@@ -51,13 +51,13 @@ export default function Home() {
   useEffect(() => {
     if (localStorage.getItem("username")) {
       localStorage.setItem("loginSuccess", true);
-      router.push("/expenses");
+      router.push("/homepage");
     } else localStorage.setItem("loginSuccess", false);
   }, []);
 
   useEffect(() => {
     if (status === "success") {
-      router.push("/expenses");
+      router.push("/homepage");
     }
   }, [status]);
 

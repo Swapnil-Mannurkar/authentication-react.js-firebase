@@ -1,3 +1,4 @@
+import styles from "./Homepage.module.css";
 import { loginActions } from "@/store/loginSlice";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
@@ -20,8 +21,8 @@ const index = () => {
   };
 
   return (
-    <div>
-      <h1>Expenses</h1>
+    <div className={styles.mainContainer}>
+      <h1>Homepage</h1>
       <button onClick={logoutHandler}>Logout</button>
     </div>
   );
